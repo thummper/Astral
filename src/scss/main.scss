@@ -1,5 +1,15 @@
 * {
+    padding: 0;
     margin: 0;
     border: 0;
     background: black;
+}
+html{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+body{
+    flex: 1;
 }
