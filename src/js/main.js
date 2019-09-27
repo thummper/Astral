@@ -1,11 +1,10 @@
 import Phaser from 'phaser';
-import Boot from "./scenes/boot";
 import Pre from "./scenes/preload";
 import Title from "./scenes/title";
 import GameScene from "./scenes/game.js";
 
-
-
+const worldWidth  = 3000;
+const worldHeight = 3000;
 
 
 class Game extends Phaser.Game {
@@ -19,12 +18,29 @@ class Game extends Phaser.Game {
             scale: {
                 mode: Phaser.Scale.RESIZE,
                 autoCenter: Phaser.Scale.CENTER_BOTH
-            }
+            },
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: {
+                        y: 0,
+                        x: 0
+                    },
+                    x: 0,
+                    y: 0,
+                    width: worldWidth,
+                    height: worldHeight,
+                    debug: true,
+                }
+            },
         });
+      
+       
 
-        this.scene.add("Boot", Boot);
         this.scene.add("Preload", Pre);
-        this.scene.start("Boot");
+        this.scene.add("Title", Title);
+        this.scene.add("GameScene", GameScene);
+        this.scene.start("Preload");
 
     }
 }

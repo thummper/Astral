@@ -29,6 +29,10 @@ module.exports = {
                     publicPath: '../static/fonts' 
                     }
                 }]
+            },
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'url-loader'
             }
         ]
     },
