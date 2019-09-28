@@ -1,4 +1,5 @@
 import Ship from "../components/ship";
+import Phaser from 'phaser';
 
 export default class GameScene extends Phaser.Scene{
     create(){
@@ -23,8 +24,55 @@ export default class GameScene extends Phaser.Scene{
      
         this.cameras.main.startFollow(this.player);
 
+
+        
+        
+        this.cursors = this.createWASD();
+        console.log("Cursors: ", this.cursors);
+
     }
+
+    createWASD(){
+        // Returns object containing hotkeys needed for this game. 
+        return this.input.keyboard.addKeys({
+            w: Phaser.Input.Keyboard.KeyCodes.W,
+            a: Phaser.Input.Keyboard.KeyCodes.A,
+            s: Phaser.Input.Keyboard.KeyCodes.S,
+            d: Phaser.Input.Keyboard.KeyCodes.D,
+        });
+    }
+
+    handlePlayerKeys(){
+
+        if(this.cursors.w.isDown){
+            this.physics.velocityFromRotation(this.player.rotation, 200, this.player.body.acceleration);
+        } else if(this.cursors.s.isDown) {
+            this.physics.velocityFromRotation(this.player.rotation, -200, this.player.body.acceleration);
+        } else {
+            this.player.body.setAcceleration(0);
+        }
+
+
+        if(this.cursors.a.isDown){
+            console.log("AAA");
+            this.player.body.setAngularVelocity(-100);
+        } else if(this.cursors.d.isDown){
+            this.player.body.setAngularVelocity(100);
+        } else {
+            this.player.body.setAngularVelocity(0);
+        }
+
+
+ 
+    }
+
     update(){
         //Presumably this is loop
+        this.handlePlayerKeys();
+
+
+
+
+
     }
 }
