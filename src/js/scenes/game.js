@@ -1,10 +1,11 @@
 import Ship from "../components/ship";
+import ShipSprite from "../components/shipsprite";
 import Phaser from 'phaser';
 
 export default class GameScene extends Phaser.Scene{
     create(){
         
-        console.log(" CREATE GAMESTATE");  
+         
         this.worldWidth = this.physics.config.width;
         this.worldHeight = this.physics.config.height;
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight);
@@ -12,23 +13,36 @@ export default class GameScene extends Phaser.Scene{
 
         let starsBaseLayer = this.add.tileSprite(0, 0, this.worldWidth, this.worldHeight, "stars01");
         starsBaseLayer.setOrigin(0, 0);
-        
-       
-        
 
-        this.player = this.physics.add.existing(new Ship(this, this.cameras.main.width / 2, this.cameras.main.height / 2, "ship01"));
-        console.log("Player: ", this.player);
-        this.player.body.setCollideWorldBounds(true);
-        this.add.existing(this.player);
 
+        this.playerShip = new Ship(this, 100, 100);
+        this.p1 = this.add.sprite(-100, 0, "plasma01");
+        this.p1.visible = false;
+        let s1 = this.add.sprite(0, 0, "ship01");
+        this.playerShip.add(this.p1);
+        this.playerShip.add(s1);
+  
+
+        this.add.existing(this.playerShip);
+        console.log(this.playerShip.getBounds());
+        let bounds = this.playerShip.getBounds();
+        this.playerShip.width = (bounds.width);
+        this.playerShip.height = (bounds.height);
+        this.playerShip = this.physics.add.existing(this.playerShip);
+        
+        this.playerShip.body.setCollideWorldBounds(true);
+        this.cameras.main.startFollow(this.playerShip);
+
+
+  
      
-        this.cameras.main.startFollow(this.player);
-
+        
 
         
         
+
         this.cursors = this.createWASD();
-        console.log("Cursors: ", this.cursors);
+      
 
     }
 
@@ -45,21 +59,24 @@ export default class GameScene extends Phaser.Scene{
     handlePlayerKeys(){
 
         if(this.cursors.w.isDown){
-            this.physics.velocityFromRotation(this.player.rotation, 200, this.player.body.acceleration);
+            this.p1.visible = true;
+            this.physics.velocityFromRotation(this.playerShip.rotation, 200, this.playerShip.body.acceleration);
         } else if(this.cursors.s.isDown) {
-            this.physics.velocityFromRotation(this.player.rotation, -200, this.player.body.acceleration);
+            this.physics.velocityFromRotation(this.playerShip.rotation, -200, this.playerShip.body.acceleration);
         } else {
-            this.player.body.setAcceleration(0);
+            this.p1.visible = false;
+            this.playerShip.body.setAcceleration(0);
         }
 
 
         if(this.cursors.a.isDown){
-            console.log("AAA");
-            this.player.body.setAngularVelocity(-100);
+            console.log("A");
+            this.playerShip.body.angularVelocity = -100;
         } else if(this.cursors.d.isDown){
-            this.player.body.setAngularVelocity(100);
+            console.log("D");
+            this.playerShip.body.setAngularVelocity(100);
         } else {
-            this.player.body.setAngularVelocity(0);
+            this.playerShip.body.setAngularVelocity(0);
         }
 
 

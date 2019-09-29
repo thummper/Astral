@@ -19,6 +19,11 @@ export default class Pre extends Phaser.Scene{
         });
         this.load.image("ship01",  "assets/ships/ship1.png");
         this.load.image("stars01", "assets/backgrounds/starstile1.jpg");
+
+      
+
+        this.load.image('plasma01', 'assets/fire/plasma1.png');
+        this.load.image('plasma02', 'assets/fire/plasma2.png');
         
     }
 
