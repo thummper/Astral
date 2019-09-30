@@ -15,31 +15,36 @@ export default class GameScene extends Phaser.Scene{
         starsBaseLayer.setOrigin(0, 0);
 
 
-        this.playerShip = new Ship(this, 100, 100);
-        this.p1 = this.add.sprite(-100, 0, "plasma01");
-        this.p1.visible = false;
-        let s1 = this.add.sprite(0, 0, "ship01");
-        this.playerShip.add(this.p1);
-        this.playerShip.add(s1);
+        let shipConfigs = [
+            {
+                shipBody: "ship01",
+                shipExhaust: "plasma01",
+                xOff: -100,
+                yOff: 0
+            },
+        ];
+
+
+
+
+        this.playerShip = new Ship(this, 100, 100, "ship01", "plasma01", shipConfigs[0]);
+        this.playerShip = this.physics.add.existing(this.playerShip);
+        //this.p1 = this.add.sprite(-100, 0, "plasma01");
+        //this.p1.visible = false;
+        //let s1 = this.add.sprite(0, 0, "ship01");
+ 
   
 
         this.add.existing(this.playerShip);
         console.log(this.playerShip.getBounds());
-        let bounds = this.playerShip.getBounds();
-        this.playerShip.width = (bounds.width);
-        this.playerShip.height = (bounds.height);
-        this.playerShip = this.physics.add.existing(this.playerShip);
+
+        // this.playerShip = this.physics.add.existing(this.playerShip);
         
         this.playerShip.body.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.playerShip);
 
 
   
-     
-        
-
-        
-        
 
         this.cursors = this.createWASD();
       
@@ -59,21 +64,19 @@ export default class GameScene extends Phaser.Scene{
     handlePlayerKeys(){
 
         if(this.cursors.w.isDown){
-            this.p1.visible = true;
             this.physics.velocityFromRotation(this.playerShip.rotation, 200, this.playerShip.body.acceleration);
+            this.playerShip.toggleExhaust();
         } else if(this.cursors.s.isDown) {
             this.physics.velocityFromRotation(this.playerShip.rotation, -200, this.playerShip.body.acceleration);
         } else {
-            this.p1.visible = false;
             this.playerShip.body.setAcceleration(0);
+            this.playerShip.toggleExhaust();
         }
 
 
         if(this.cursors.a.isDown){
-            console.log("A");
             this.playerShip.body.angularVelocity = -100;
         } else if(this.cursors.d.isDown){
-            console.log("D");
             this.playerShip.body.setAngularVelocity(100);
         } else {
             this.playerShip.body.setAngularVelocity(0);
@@ -86,10 +89,5 @@ export default class GameScene extends Phaser.Scene{
     update(){
         //Presumably this is loop
         this.handlePlayerKeys();
-
-
-
-
-
     }
 }
