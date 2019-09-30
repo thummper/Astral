@@ -24,6 +24,7 @@ export default class Pre extends Phaser.Scene{
 
         this.load.image('plasma01', 'assets/fire/plasma1.png');
         this.load.image('plasma02', 'assets/fire/plasma2.png');
+        this.load.image("particleCricle", "assets/fire/circle05.png");
         
     }
 

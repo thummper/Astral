@@ -9,6 +9,10 @@ export default class GameScene extends Phaser.Scene{
         this.worldWidth = this.physics.config.width;
         this.worldHeight = this.physics.config.height;
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight);
+
+        // this.minimap = this.cameras.add(0, this.cameras.main.height - 200, 200, 200);
+        // this.minimap.zoom = 0.1;
+
        
 
         let starsBaseLayer = this.add.tileSprite(0, 0, this.worldWidth, this.worldHeight, "stars01");
@@ -20,7 +24,8 @@ export default class GameScene extends Phaser.Scene{
                 shipBody: "ship01",
                 shipExhaust: "plasma01",
                 xOff: -100,
-                yOff: 0
+                yOff: 0,
+                scale: 0.6
             },
         ];
 
@@ -42,6 +47,7 @@ export default class GameScene extends Phaser.Scene{
         
         this.playerShip.body.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.playerShip);
+        // this.minimap.startFollow(this.playerShip);
 
 
   
@@ -65,12 +71,12 @@ export default class GameScene extends Phaser.Scene{
 
         if(this.cursors.w.isDown){
             this.physics.velocityFromRotation(this.playerShip.rotation, 200, this.playerShip.body.acceleration);
-            this.playerShip.toggleExhaust();
+            this.playerShip.toggleExhaust(true);
         } else if(this.cursors.s.isDown) {
             this.physics.velocityFromRotation(this.playerShip.rotation, -200, this.playerShip.body.acceleration);
         } else {
             this.playerShip.body.setAcceleration(0);
-            this.playerShip.toggleExhaust();
+            this.playerShip.toggleExhaust(false);
         }
 
 
